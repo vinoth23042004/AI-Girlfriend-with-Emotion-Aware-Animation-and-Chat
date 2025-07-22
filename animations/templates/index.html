@@ -1,1 +1,639 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Girlfriend - Complete Experience</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        .main-container {
+            display: flex;
+            height: 100vh;
+        }
+        .left-half {
+            width: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+        .right-half {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            border-left: 1px solid #dee2e6;
+        }
+        
+        /* Left side styles */
+        .left-header {
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 15px;
+        }
+        #video-container {
+            flex: 0 0 auto;
+            text-align: center;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 60vh;
+        }
+        #video-stream {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        #left-chat-container {
+            flex: 1 1 auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .user-voice-message {
+            background-color: #e1f5fe;
+            padding: 8px;
+            border-radius: 8px;
+            margin: 5px;
+            max-width: 70%;
+            align-self: flex-end;
+        }
+        .ai-voice-message {
+            background-color: #f5f5f5;
+            padding: 8px;
+            border-radius: 8px;
+            margin: 5px;
+            max-width: 70%;
+            align-self: flex-start;
+        }
+        #left-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        #emotion-display {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+            margin-right: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .emotion-happy {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .emotion-sad {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        .emotion-angry {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .emotion-neutral {
+            background-color: #f5f5f5;
+            color: #616161;
+        }
+        .emotion-caring {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+        .emotion-loving {
+            background-color: #fff8e1;
+            color: #ff6f00;
+        }
+        #mic-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 15px;
+        }
+        #mic-button.recording {
+            background-color: #f44336;
+        }
+        
+        /* Right side styles */
+        .header {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .message-container {
+            max-width: 80%;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+        }
+        .assistant-message {
+            background-color: #f1f0f0;
+            align-self: flex-start;
+        }
+        .message-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+        }
+        #user-input {
+            flex-grow: 1;
+            border-radius: 20px;
+            border: 1px solid #ced4da;
+            padding: 10px 15px;
+            margin-right: 10px;
+        }
+        .send-button {
+            border-radius: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .clear-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .action-button {
+            background: none;
+            border: none;
+            color: #2196F3;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 18px;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .status-indicator {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Side - Animation & Voice -->
+        <div class="left-half">
+            <div class="left-header">
+                <h2>Interactive AI Companion</h2>
+                <p>Talk with your virtual girlfriend through voice</p>
+            </div>
+            
+            <div id="video-container">
+                <img id="video-stream" src="{{ url_for('video_feed') }}" alt="Animated AI Girl">
+            </div>
+            
+            <div id="left-chat-container">
+                <!-- Voice chat messages will appear here -->
+            </div>
+            
+            <div id="left-controls">
+                <div id="emotion-display" class="emotion-neutral">
+                    Current Mood: Neutral
+                </div>
+                <button id="mic-button">
+                    <i class="fas fa-microphone"></i> Talk
+                </button>
+            </div>
+        </div>
+        
+        <!-- Right Side - Text Chat & Images -->
+        <div class="right-half">
+            <div class="header">
+                <h2>AI Girlfriend Chat</h2>
+                <div class="controls">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="image-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <span style="margin-left: 10px;">Generate Images</span>
+                    <button class="clear-button" id="clear-chat">Clear Chat</button>
+                </div>
+            </div>
+            
+            <div class="chat-container" id="chat-container">
+                {% for message in messages %}
+                    {% if message.role == 'user' %}
+                        <div class="message-container user-message">
+                            {{ message.content }}
+                        </div>
+                    {% else %}
+                        <div class="message-container assistant-message">
+                            {{ message.content }}
+                            {% if message.image %}
+                                <img class="message-image" src="{{ message.image }}" alt="AI Generated Image">
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="input-container">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button class="send-button" id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        // Connect to Socket.IO server
+        const socket = io();
+        
+        // DOM Elements
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const chatContainer = document.getElementById('chat-container');
+        const imageToggle = document.getElementById('image-toggle');
+        const clearChatButton = document.getElementById('clear-chat');
+        const micButton = document.getElementById('mic-button');
+        const leftChatContainer = document.getElementById('left-chat-container');
+        const emotionDisplay = document.getElementById('emotion-display');
+        
+        // Variables to track state
+        let isRecording = false;
+        let currentEmotion = 'neutral';
+        let speakingTimeout = null;
+        
+        // Function to scroll chat to bottom
+        function scrollToBottom(container) {
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // Helper function to create message elements
+        function createMessageElement(content, isUser = false, imageUrl = null, emotion = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isUser ? 'message-container user-message' : 'message-container assistant-message';
+            messageDiv.innerText = content;
+            
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.className = 'message-image';
+                img.src = imageUrl;
+                img.alt = 'AI Generated Image';
+                messageDiv.appendChild(img);
+            }
+            
+            return messageDiv;
+        }
+        
+        // Function to create voice chat message
+        function createVoiceMessageElement(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isUser ? 'user-voice-message' : 'ai-voice-message';
+            messageDiv.innerText = content;
+            return messageDiv;
+        }
+        
+        // Send message function for RIGHT SIDE ONLY
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            // Add user message to chat
+            chatContainer.appendChild(createMessageElement(message, true));
+            scrollToBottom(chatContainer);
+            
+            // Add loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message-container assistant-message';
+            loadingDiv.innerHTML = '<div class="loader"></div> Thinking...';
+            chatContainer.appendChild(loadingDiv);
+            scrollToBottom(chatContainer);
+            
+            // Clear input field
+            userInput.value = '';
+            
+            // Send to server
+            fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    generate_images: imageToggle.checked
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove loading indicator
+                chatContainer.removeChild(loadingDiv);
+                
+                // Add AI response to chat
+                chatContainer.appendChild(createMessageElement(
+                    data.content, 
+                    false, 
+                    data.image || null,
+                    data.emotion || null
+                ));
+                scrollToBottom(chatContainer);
+                
+                // Update emotion if provided (only affects right side)
+                if (data.emotion) {
+                    currentEmotion = data.emotion;
+                    // We don't call updateEmotion here to keep sides separate
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Remove loading indicator and show error
+                chatContainer.removeChild(loadingDiv);
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message-container assistant-message';
+                errorDiv.innerText = 'Sorry, there was an error processing your message.';
+                chatContainer.appendChild(errorDiv);
+                scrollToBottom(chatContainer);
+            });
+        }
+        
+        // Function to update emotion display for LEFT SIDE ONLY
+        function updateEmotionDisplay(emotion) {
+            emotionDisplay.className = ''; // Remove all classes
+            emotionDisplay.classList.add('emotion-' + emotion);
+            emotionDisplay.innerText = 'Current Mood: ' + emotion.charAt(0).toUpperCase() + emotion.slice(1);
+        }
+        
+        // Function to handle voice input (LEFT SIDE ONLY)
+        function toggleMicrophone() {
+            if (!isRecording) {
+                // Start recording
+                isRecording = true;
+                micButton.classList.add('recording');
+                micButton.innerHTML = '<i class="fas fa-stop"></i> Stop';
+                
+                // Show recording indicator in left chat
+                const recordingIndicator = document.createElement('div');
+                recordingIndicator.id = 'recording-indicator';
+                recordingIndicator.className = 'ai-voice-message';
+                recordingIndicator.innerHTML = '<i class="fas fa-circle text-danger"></i> Listening...';
+                leftChatContainer.appendChild(recordingIndicator);
+                scrollToBottom(leftChatContainer);
+                
+                // Call the server's listening endpoint
+                fetch('/voice_input')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Remove recording indicator
+                        const indicator = document.getElementById('recording-indicator');
+                        if (indicator) leftChatContainer.removeChild(indicator);
+                        
+                        // Reset recording state
+                        isRecording = false;
+                        micButton.classList.remove('recording');
+                        micButton.innerHTML = '<i class="fas fa-microphone"></i> Talk';
+                        
+                        if (data.success) {
+                            // Add user's spoken message to left chat ONLY
+                            leftChatContainer.appendChild(createVoiceMessageElement(data.text, true));
+                            scrollToBottom(leftChatContainer);
+                            
+                            // Process voice input separately without affecting right side
+                            processVoiceInput(data.text);
+                            
+                            // Update emotion if provided
+                            if (data.emotion) {
+                                updateEmotionDisplay(data.emotion);
+                            }
+                        } else {
+                            // Show error message
+                            const errorMsg = document.createElement('div');
+                            errorMsg.className = 'ai-voice-message';
+                            errorMsg.innerText = "Sorry, I couldn't understand what you said. Please try again.";
+                            leftChatContainer.appendChild(errorMsg);
+                            scrollToBottom(leftChatContainer);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        isRecording = false;
+                        micButton.classList.remove('recording');
+                        micButton.innerHTML = '<i class="fas fa-microphone"></i> Talk';
+                        
+                        // Remove recording indicator
+                        const indicator = document.getElementById('recording-indicator');
+                        if (indicator) leftChatContainer.removeChild(indicator);
+                        
+                        // Show error message
+                        const errorMsg = document.createElement('div');
+                        errorMsg.className = 'ai-voice-message';
+                        errorMsg.innerText = "Sorry, there was an error processing your voice. Please try again.";
+                        leftChatContainer.appendChild(errorMsg);
+                        scrollToBottom(leftChatContainer);
+                    });
+            } else {
+                // Stop recording functionality would go here
+                // Currently not needed as the recording automatically stops after processing
+            }
+        }
+        
+        // Process voice input and get AI response (LEFT SIDE ONLY)
+        function processVoiceInput(text) {
+            // Add loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'ai-voice-message';
+            loadingDiv.innerHTML = '<div class="loader"></div> Thinking...';
+            leftChatContainer.appendChild(loadingDiv);
+            scrollToBottom(leftChatContainer);
+            
+            // Send to server
+            fetch('/process_voice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: text
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove loading indicator
+                leftChatContainer.removeChild(loadingDiv);
+                
+                // Add AI response to left chat
+                leftChatContainer.appendChild(createVoiceMessageElement(data.response, false));
+                scrollToBottom(leftChatContainer);
+                
+                // Start the speaking animation for the exact duration
+                if (data.duration) {
+                    fetch(`/start_speaking/${data.duration}`);
+                }
+                
+                // Play the audio
+                const audio = new Audio(`/get_audio/${encodeURIComponent(data.response)}`);
+                audio.play();
+                
+                // Update emotion if provided
+                if (data.emotion) {
+                    updateEmotionDisplay(data.emotion);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Remove loading indicator and show error
+                leftChatContainer.removeChild(loadingDiv);
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'ai-voice-message';
+                errorMsg.innerText = 'Sorry, there was an error processing your message.';
+                leftChatContainer.appendChild(errorMsg);
+                scrollToBottom(leftChatContainer);
+            });
+        }
+        
+        // Event Listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        // Toggle image generation
+        imageToggle.addEventListener('change', () => {
+            fetch('/toggle_images', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    generate_images: imageToggle.checked
+                }),
+            });
+        });
+        
+        // Clear chat history (both sides)
+        clearChatButton.addEventListener('click', () => {
+            fetch('/clear_chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(() => {
+                chatContainer.innerHTML = '';
+                leftChatContainer.innerHTML = '';
+            });
+        });
+        
+        // Microphone button
+        micButton.addEventListener('click', toggleMicrophone);
+        
+        // Socket.IO event handlers
+        socket.on('emotion_update', (data) => {
+            // Only update the visual display without affecting the right side chat
+            updateEmotionDisplay(data.emotion);
+        });
+        
+        // Initialize emotion display
+        fetch('/get_current_emotion')
+            .then(response => response.json())
+            .then(data => {
+                updateEmotionDisplay(data.emotion);
+            });
+        
+        // Scroll to bottom on load
+        window.onload = function() {
+            scrollToBottom(chatContainer);
+            scrollToBottom(leftChatContainer);
+        };
+    </script>
+</body>
+</html>
