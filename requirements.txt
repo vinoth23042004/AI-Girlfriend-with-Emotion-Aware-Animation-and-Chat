@@ -1,0 +1,20 @@
+Flask==2.3.3
+Flask-SocketIO==5.3.6
+eventlet==0.33.3
+pygame==2.5.2
+sounddevice==0.4.6
+soundfile==0.12.1
+SpeechRecognition==3.10.1
+opencv-python==4.9.0.80
+deepface==0.0.83
+edge-tts==6.1.10
+google-generativeai==0.3.2
+python-dotenv==1.0.1
+torch --index-url https://download.pytorch.org/whl/cu118
+torchvision --index-url https://download.pytorch.org/whl/cu118
+torchaudio --index-url https://download.pytorch.org/whl/cu118
+diffusers==0.27.2
+transformers==4.40.1
+scipy==1.13.0
+numpy==1.26.4
+Pillow==10.3.0
