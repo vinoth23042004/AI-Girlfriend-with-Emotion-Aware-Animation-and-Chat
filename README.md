@@ -4,19 +4,13 @@ An immersive AI girlfriend web app that combines real-time **emotion detection**
 
 ---
 
-## 🌟 Demo
-
 ### 🎥 Video Demo
 
-[![Watch the demo](https://img.youtube.com/vi/<demo-video-id>/0.jpg)](https://www.youtube.com/watch?v=<demo-video-id>)
-
-> Replace `<demo-video-id>` with your actual YouTube video ID or upload a `.mp4` inside the repo and embed it using HTML.
+[![Watch Demo on YouTube](https://img.youtube.com/vi/1Cb69p1uZpc/0.jpg)](https://youtu.be/1Cb69p1uZpc?si=Z_0KziH2toY62r8U)
 
 ### 🖼️ Screenshots
 
-| Emotion Response | Voice Chat |
-|------------------|------------|
-| ![Happy Response](assets/screenshots/happy.png) | ![Voice Chat](assets/screenshots/voice_chat.png) |
+![Screenshot](https://github.com/user-attachments/assets/34eab13e-dd14-4f39-a780-7d5b9519f707)
 
 ---
 
