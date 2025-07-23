@@ -6,11 +6,12 @@ An immersive AI girlfriend web app that combines real-time **emotion detection**
 
 ### 🎥 Video Demo
 
-[![Watch Demo on YouTube]([https://img.youtube.com/vi/1Cb69p1uZpc/0.jpg)](https://youtu.be/1Cb69p1uZpc?si=Z_0KziH2toY62r8U](https://youtu.be/YUi6AEaxTpk?si=HgJKV9wsOoYoeLkl))
+[![Watch Demo on YouTube](https://img.youtube.com/vi/YUi6AEaxTpk/0.jpg)](https://youtu.be/YUi6AEaxTpk?si=HgJKV9wsOoYoeLkl)
 
 ### 🖼️ Screenshots
 
-![Screenshot]([https://github.com/user-attachments/assets/34eab13e-dd14-4f39-a780-7d5b9519f707](https://raw.githubusercontent.com/vinoth23042004/AI-Girlfriend-with-Emotion-Aware-Animation-and-Chat/refs/heads/main/assests/sample_output.png))
+![Screenshot](https://raw.githubusercontent.com/vinoth23042004/AI-Girlfriend-with-Emotion-Aware-Animation-and-Chat/refs/heads/main/assests/sample_output.png)
+
 
 ---
 
