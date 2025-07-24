@@ -58,6 +58,7 @@ An immersive AI girlfriend web app that combines real-time **emotion detection**
 
 - Based on your detected or implied emotion, an **anime image** is generated.
 - This is done using a custom Stable Diffusion model.
+- 📦 **[Download Image Generation Model](https://drive.google.com/file/d/1jlPqkWs89AyNEnL2rNVcZDPK-f5zqGER/view?usp=drive_link)**
 
 ### 🌈 Emotion Response Types
 
